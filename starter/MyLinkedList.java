@@ -141,7 +141,8 @@ public class MyLinkedList<E> extends AbstractList<E> {
         if (index < 0 || index > this.size) {
             throw new IndexOutOfBoundsException("Index Out of Bounds");
         }
-            Node node = new Node(data); //this node is to add.
+
+        Node node = new Node(data); //this node is to add.
 
         if (index == 0 && this.size == 0) {
             node.setNext(head.getNext());
@@ -256,30 +257,81 @@ public class MyLinkedList<E> extends AbstractList<E> {
         return curr;
     }
 
-    public class MyLinkedList<E> extends AbstractList<E> {
-        // class variables
-
-        // Node inner class
-
-        // MyLinkedList methods
-
         protected class MyListIterator implements ListIterator<E> {
-
             // class variables here
+            private Node left;
+            private Node right;
+            private int index;
+            private boolean forward;
+            private boolean canRemoveOrSet;
+
+            public MyListIterator() {
+                this.left = this.head;
+                this.right = this.head.next;
+                this.index = 0;
+                this.forward = true;
+                this.canRemoveOrSet = false;
+            }
 
             // MyListIterator methods
             public boolean hasNext() {
-                // your code here
+                return this.right != this.tail;
             }
 
+            public E next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                    }
+                this.left = this.right;
+                this.right = this.right.getNext(); 
+                this.index++;
+                this.canRemoveOrSet = true;
+                return this.left.getElement();
+            }
 
-            // more methods, etc.
+            public boolean hasPrevious() {
+                return this.left != this.head;
+
+            }
+
+            public int nextIndex() {
+                return index + 1;
+            }
+
+            public int previousIndex() {
+                return index - 1;
+
+            }
+
+            public void add(E element) {
+                if (element == null) {
+                    throw new NullPointerException("Null Pointer Exception..");
+                }
+                Node curr = this.left; //left 
+                Node node = new Node(element);
+                node.setNext(curr);
+                node.setPrev(curr.getPrev());
+                curr.setPrev(node);
+                node.getPrev().setNext(node);
+            }
+
+            public void set(E element) {
+                if (data == null) {
+                    throw new NullPointerException("Null Pointer Exception..");
+                }
+                if (!this.canRemoveOrSet) {
+                    throw new IllegalStateException();
+                }
+                    
+                if (this.forward) {
+                    this.left.setElement(element);
+                } else {
+                    this.right.setElement(element);
+                }
+            }
+
+            public void remove() {
+
+            }
         }
-}
-
-
-
-
-
-
 }
