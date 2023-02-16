@@ -296,11 +296,13 @@ public class MyLinkedList<E> extends AbstractList<E> {
                 if (!hasPrevious()) {
                     throw new NoSuchElementException();
                 }
+
                 this.right = this.left;
-                this.left = this.left.getPrev(); 
+                this.left = this.left.getPrev();
                 this.idx--;
+                this.forward = false;
                 this.canRemoveOrSet = true;
-                return this.left.getElement();
+                return this.right.getElement();
             }
 
             public boolean hasPrevious() {
@@ -309,7 +311,7 @@ public class MyLinkedList<E> extends AbstractList<E> {
             }
 
             public int nextIndex() {
-                return this.idx + 1;
+                return this.idx;
             }
 
             public int previousIndex() {
@@ -321,12 +323,17 @@ public class MyLinkedList<E> extends AbstractList<E> {
                 if (element == null) {
                     throw new NullPointerException("Null Pointer Exception..");
                 }
-                Node curr = this.left; //left 
+                Node curr = this.right; 
                 Node node = new Node(element);
                 node.setNext(curr);
                 node.setPrev(curr.getPrev());
                 curr.setPrev(node);
                 node.getPrev().setNext(node);
+                this.left = node;
+                this.idx++;
+                this.canRemoveOrSet = false;
+                MyLinkedList.this.size++;
+                
             }
 
             public void set(E element) {
@@ -353,12 +360,16 @@ public class MyLinkedList<E> extends AbstractList<E> {
                 Node curr = this.left;
                 curr.getPrev().setNext(curr.getNext());
                 curr.getNext().setPrev(curr.getPrev());
+                this.left = curr.getPrev();
+                this.idx--;
             } else {
                 Node curr = this.right;
                 curr.getPrev().setNext(curr.getNext());
                 curr.getNext().setPrev(curr.getPrev());
+                this.right = curr.getNext();
             }
             this.canRemoveOrSet = false;
+            MyLinkedList.this.size--;
         }
 
         }

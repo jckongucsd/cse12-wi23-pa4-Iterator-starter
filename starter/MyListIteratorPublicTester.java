@@ -308,6 +308,10 @@ public class MyListIteratorPublicTester {
         listLen2Iter.forward = true;
         listLen2Iter.canRemoveOrSet = true;
 
+        //Paul, Cao
+        //Paul, CSE12, Cao
+        //left should point to CSE12
+
         listLen2Iter.add("CSE 12");
         assertEquals("Valid add left", "CSE 12",
                 listLen2Iter.left.getElement());
