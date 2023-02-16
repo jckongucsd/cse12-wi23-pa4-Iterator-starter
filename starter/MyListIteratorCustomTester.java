@@ -12,7 +12,15 @@ public class MyListIteratorCustomTester {
      */
     @Before
     public void setUp() throws Exception {
+        private MyLinkedList linkedList;
+        private MyLinkedList.MyListIterator listIter;
 
+        linkedList = new MyLinkedList();
+        linkedList.add(1);
+        linkedList.add(2);
+        linkedList.add(3);
+        linkedList.add(4);
+        listIter = linkedList.new MyListIterator();
     }
 
     /**
@@ -20,6 +28,12 @@ public class MyListIteratorCustomTester {
      */
     @Test
     public void testNextEnd() {
+        linkedList.next();
+        linkedList.next();
+        linkedList.next();
+        assertThrows(NoSuchElementException.class, () -> {
+            linkedList.next();
+        });
 
     }
 
@@ -29,6 +43,9 @@ public class MyListIteratorCustomTester {
      */
     @Test
     public void testPreviousStart() {
+        assertThrows(NoSuchElementException.class, () -> {
+            linkedList.previous();
+        });
         
     }
 
@@ -38,6 +55,12 @@ public class MyListIteratorCustomTester {
     @Test
     public void testAddInvalid() {
 
+        linkedList.next();
+        assertThrows(NullPointerException.class, () -> {
+            linkedList.add(null);
+        });
+
+
     }
 
     /**
@@ -46,6 +69,12 @@ public class MyListIteratorCustomTester {
     @Test
     public void testCantSet() {
 
+        iterator.next();
+        iterator.next();
+        iterator.canRemoveOrSet = false;
+        assertThrows(IllegalStateException.class, () -> {
+            iterator.set(7);
+        });
     }
 
 
@@ -55,6 +84,10 @@ public class MyListIteratorCustomTester {
     @Test
     public void testSetInvalid() {
 
+        iterator.next();
+        assertThrows(NullPointerException.class, () -> {
+            iterator.set(null);
+        });
     }
 
     /**
@@ -63,6 +96,13 @@ public class MyListIteratorCustomTester {
     @Test
     public void testCantRemove() {
 
+        iterator.next();
+        iterator.next();
+        iterator.canRemoveOrSet = false;
+        assertThrows(IllegalStateException.class, () -> {
+            iterator.remove();
+        });
+
     }
 
     /**
@@ -70,7 +110,11 @@ public class MyListIteratorCustomTester {
      */
     @Test
     public void testHasNextEnd() {
-
+        iterator.next();
+        iterator.next();
+        iterator.next();
+        assertEquals("hasNext() at the end of a list", false,
+                iterator.hasNext());
     }
 
     /**
@@ -78,6 +122,8 @@ public class MyListIteratorCustomTester {
      */
     @Test
     public void testHasPreviousStart() {
+        assertEquals("hasPrevious() at the end of a list", false,
+            iterator.hasPrevious());
 
     }
 
@@ -86,7 +132,8 @@ public class MyListIteratorCustomTester {
      */
     @Test
     public void testPreviousIndexStart() {
-
+        assertEquals("previousIndex() at the end of a list", -1,
+            iterator.previousIndex());
     }
 
     /**
@@ -94,6 +141,7 @@ public class MyListIteratorCustomTester {
      */
     @Test
     public void testNextIndexEnd() {
-
+        assertEquals("previousIndex() at the end of a list", linkedList.size(),
+            iterator.nextIndex());
     }
 }
