@@ -2,9 +2,9 @@
   Name: Jason Kong
   Email: jckong@ucsd.edu
   PID: A17351738
-  CSE 12 - PA 3
+  CSE 12 - PA 4
   Professor Cao
-  File name: MyListedLIstCustomTester.java
+  File name: MyLinkedList.java
 */
 
 import java.util.AbstractList;
@@ -260,14 +260,20 @@ public class MyLinkedList<E> extends AbstractList<E> {
         return curr;
     }
 
+        /**
+        * class MyListIterator is a class for our LinkedList iterator implementation
+        *
+        */
         protected class MyListIterator implements ListIterator<E> {
-            // class variables here
             Node left;
             Node right;
             int idx;
             boolean forward;
             boolean canRemoveOrSet;
 
+            /** 
+            * MyListIterator() is the no-arg constructor for MyListIterator
+            */
             public MyListIterator() {
                 this.left = MyLinkedList.this.head;
                 this.right = MyLinkedList.this.head.getNext();
@@ -276,11 +282,21 @@ public class MyLinkedList<E> extends AbstractList<E> {
                 this.canRemoveOrSet = false;
             }
 
-            // MyListIterator methods
+            /** 
+            * hasNext() is the method for seeing it there is a next
+            * node from current position
+            * @return boolean: true if there is next node. 
+            * false if no
+            */
             public boolean hasNext() {
                 return this.right != MyLinkedList.this.tail;
             }
 
+            /** 
+            * next() is the method for moving the iterator
+            * to the right
+            * @return E: returns the left node of the iterator
+            */
             public E next() {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
@@ -292,6 +308,11 @@ public class MyLinkedList<E> extends AbstractList<E> {
                 return this.left.getElement();
             }
 
+            /** 
+            * next() is the method for moving the iterator
+            * to the left
+            * @return E: returns the right node of the iterator
+            */
             public E previous() {
                 if (!hasPrevious()) {
                     throw new NoSuchElementException();
@@ -305,20 +326,41 @@ public class MyLinkedList<E> extends AbstractList<E> {
                 return this.right.getElement();
             }
 
+            /** 
+            * hasPrevious() is the method for seeing it there is a previous
+            * node from current position
+            * @return boolean: true if there is previous node. 
+            * false if no
+            */
             public boolean hasPrevious() {
                 return this.left != MyLinkedList.this.head;
 
             }
 
+            /** 
+            * nextIndex() is the method for getting the index 
+            * after a next() is called
+            * @return integer of the index
+            */
             public int nextIndex() {
                 return this.idx;
             }
 
+            /** 
+            * previousIndex() is the method for getting the index 
+            * after a previous() is called
+            * @return integer of the index
+            */
             public int previousIndex() {
                 return this.idx - 1;
 
             }
 
+            /** 
+            * add() is the method for adding a new node to the
+            * linkedList
+            * @param element of the new node
+            */
             public void add(E element) {
                 if (element == null) {
                     throw new NullPointerException("Null Pointer Exception..");
@@ -336,6 +378,11 @@ public class MyLinkedList<E> extends AbstractList<E> {
                 
             }
 
+            /** 
+            * set() is the method for setting a node to the
+            * linkedList
+            * @param element the user want to set
+            */
             public void set(E element) {
                 if (element == null) {
                     throw new NullPointerException("Null Pointer Exception..");
@@ -351,6 +398,10 @@ public class MyLinkedList<E> extends AbstractList<E> {
                 }
             }
 
+            /** 
+            * remove() is the method for removing a node from the
+            * linkedList
+            */
             public void remove() {
             if (!this.canRemoveOrSet) {
                 throw new IllegalStateException();
