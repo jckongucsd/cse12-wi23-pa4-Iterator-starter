@@ -8,6 +8,9 @@
 */
 
 import java.util.AbstractList;
+import java.util.NoSuchElementException;
+import java.util.ListIterator;
+import java.util.Iterator;
 
 /**
 * class MyLinkedList is a class for our LinkedList implementation
@@ -259,23 +262,23 @@ public class MyLinkedList<E> extends AbstractList<E> {
 
         protected class MyListIterator implements ListIterator<E> {
             // class variables here
-            private Node left;
-            private Node right;
-            private int index;
-            private boolean forward;
-            private boolean canRemoveOrSet;
+            Node left;
+            Node right;
+            int idx;
+            boolean forward;
+            boolean canRemoveOrSet;
 
             public MyListIterator() {
-                this.left = this.head;
-                this.right = this.head.next;
-                this.index = 0;
+                this.left = MyLinkedList.this.head;
+                this.right = MyLinkedList.this.head.getNext();
+                this.idx = 0;
                 this.forward = true;
                 this.canRemoveOrSet = false;
             }
 
             // MyListIterator methods
             public boolean hasNext() {
-                return this.right != this.tail;
+                return this.right != MyLinkedList.this.tail;
             }
 
             public E next() {
@@ -284,22 +287,33 @@ public class MyLinkedList<E> extends AbstractList<E> {
                     }
                 this.left = this.right;
                 this.right = this.right.getNext(); 
-                this.index++;
+                this.idx++;
+                this.canRemoveOrSet = true;
+                return this.left.getElement();
+            }
+
+            public E previous() {
+                if (!hasPrevious()) {
+                    throw new NoSuchElementException();
+                }
+                this.right = this.left;
+                this.left = this.left.getPrev(); 
+                this.idx--;
                 this.canRemoveOrSet = true;
                 return this.left.getElement();
             }
 
             public boolean hasPrevious() {
-                return this.left != this.head;
+                return this.left != MyLinkedList.this.head;
 
             }
 
             public int nextIndex() {
-                return index + 1;
+                return this.idx + 1;
             }
 
             public int previousIndex() {
-                return index - 1;
+                return this.idx - 1;
 
             }
 
@@ -316,7 +330,7 @@ public class MyLinkedList<E> extends AbstractList<E> {
             }
 
             public void set(E element) {
-                if (data == null) {
+                if (element == null) {
                     throw new NullPointerException("Null Pointer Exception..");
                 }
                 if (!this.canRemoveOrSet) {
@@ -331,7 +345,21 @@ public class MyLinkedList<E> extends AbstractList<E> {
             }
 
             public void remove() {
-
+            if (!this.canRemoveOrSet) {
+                throw new IllegalStateException();
             }
+
+            if (this.forward) {
+                Node curr = this.left;
+                curr.getPrev().setNext(curr.getNext());
+                curr.getNext().setPrev(curr.getPrev());
+            } else {
+                Node curr = this.right;
+                curr.getPrev().setNext(curr.getNext());
+                curr.getNext().setPrev(curr.getPrev());
+            }
+            this.canRemoveOrSet = false;
+        }
+
         }
 }
