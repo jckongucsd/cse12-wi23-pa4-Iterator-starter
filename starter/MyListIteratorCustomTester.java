@@ -33,6 +33,7 @@ public class MyListIteratorCustomTester {
         listIter.next();
         listIter.next();
         listIter.next();
+        listIter.next();
 
     }
 
@@ -42,7 +43,7 @@ public class MyListIteratorCustomTester {
      */
     @Test(expected=NoSuchElementException.class)
     public void testPreviousStart() {
-    listIter.previous();
+        listIter.previous();
         
     }
 
@@ -65,10 +66,10 @@ public class MyListIteratorCustomTester {
      */
     @Test(expected=IllegalStateException.class)
     public void testCantSet() {
-
         listIter.next();
         listIter.next();
         listIter.canRemoveOrSet = false;
+        listIter.set(7);
     }
 
 
@@ -87,7 +88,6 @@ public class MyListIteratorCustomTester {
      */
     @Test(expected=IllegalStateException.class)
     public void testCantRemove() {
-
         listIter.next();
         listIter.next();
         listIter.canRemoveOrSet = false;
@@ -100,6 +100,7 @@ public class MyListIteratorCustomTester {
      */
     @Test
     public void testHasNextEnd() {
+        listIter.next();
         listIter.next();
         listIter.next();
         listIter.next();
@@ -131,6 +132,10 @@ public class MyListIteratorCustomTester {
      */
     @Test
     public void testNextIndexEnd() {
+        listIter.next();
+        listIter.next();
+        listIter.next();
+        listIter.next();
         assertEquals("previousIndex() at the end of a list", linkedList.size(),
             listIter.nextIndex());
     }
