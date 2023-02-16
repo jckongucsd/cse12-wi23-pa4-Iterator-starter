@@ -2,6 +2,7 @@
 
 import static org.junit.Assert.*;
 import org.junit.*;
+import java.util.*;
 
 public class MyListIteratorCustomTester {
         MyLinkedList linkedList;
@@ -26,14 +27,12 @@ public class MyListIteratorCustomTester {
     /**
      * Aims to test the next() method when iterator is at end of the list 
      */
-    @Test
+    @Test(expected=NoSuchElementException.class)
     public void testNextEnd() {
         listIter.next();
         listIter.next();
         listIter.next();
-        assertThrows(java.util.NoSuchElementException.class, () -> {
-            listIter.next();
-        });
+        listIter.next();
 
     }
 
@@ -41,11 +40,9 @@ public class MyListIteratorCustomTester {
      * Aims to test the previous() method when iterator is at the start of the 
      * list 
      */
-    @Test
+    @Test(expected=NoSuchElementException.class)
     public void testPreviousStart() {
-        assertThrows(NoSuchElementException.class, () -> {
-            listIter.previous();
-        });
+    listIter.previous();
         
     }
 
@@ -72,36 +69,29 @@ public class MyListIteratorCustomTester {
         listIter.next();
         listIter.next();
         listIter.canRemoveOrSet = false;
-        assertThrows(IllegalStateException.class, () -> {
-            listIter.set(7);
-        });
     }
 
 
     /**
      * Aims to test the set(E e) method when an invalid element is set
      */
-    @Test
+    @Test(expected=NullPointerException.class)
     public void testSetInvalid() {
 
         listIter.next();
-        assertThrows(NullPointerException.class, () -> {
-            listIter.set(null);
-        });
+        listIter.set(null);
     }
 
     /**
      * Aims to test the remove() method when canRemoveOrSet is false
      */
-    @Test
+    @Test(expected=IllegalStateException.class)
     public void testCantRemove() {
 
         listIter.next();
         listIter.next();
         listIter.canRemoveOrSet = false;
-        assertThrows(IllegalStateException.class, () -> {
-            listIter.remove();
-        });
+        listIter.remove();
 
     }
 
