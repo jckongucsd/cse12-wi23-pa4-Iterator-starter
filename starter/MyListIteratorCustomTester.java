@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 import org.junit.*;
 
 public class MyListIteratorCustomTester {
+        MyLinkedList linkedList;
+        MyLinkedList.MyListIterator listIter;
 
     /**
      * This sets up the test fixture. JUnit invokes this method before
@@ -12,8 +14,6 @@ public class MyListIteratorCustomTester {
      */
     @Before
     public void setUp() throws Exception {
-        private MyLinkedList linkedList;
-        private MyLinkedList.MyListIterator listIter;
 
         linkedList = new MyLinkedList();
         linkedList.add(1);
@@ -28,11 +28,11 @@ public class MyListIteratorCustomTester {
      */
     @Test
     public void testNextEnd() {
-        linkedList.next();
-        linkedList.next();
-        linkedList.next();
-        assertThrows(NoSuchElementException.class, () -> {
-            linkedList.next();
+        listIter.next();
+        listIter.next();
+        listIter.next();
+        assertThrows(java.util.NoSuchElementException.class, () -> {
+            listIter.next();
         });
 
     }
@@ -44,7 +44,7 @@ public class MyListIteratorCustomTester {
     @Test
     public void testPreviousStart() {
         assertThrows(NoSuchElementException.class, () -> {
-            linkedList.previous();
+            listIter.previous();
         });
         
     }
@@ -55,9 +55,9 @@ public class MyListIteratorCustomTester {
     @Test
     public void testAddInvalid() {
 
-        linkedList.next();
+        listIter.next();
         assertThrows(NullPointerException.class, () -> {
-            linkedList.add(null);
+            listIter.add(null);
         });
 
 
@@ -66,14 +66,14 @@ public class MyListIteratorCustomTester {
     /**
      * Aims to test the set(E e) method when canRemoveOrSet is false
      */
-    @Test
+    @Test(expected=IllegalStateException.class)
     public void testCantSet() {
 
-        iterator.next();
-        iterator.next();
-        iterator.canRemoveOrSet = false;
+        listIter.next();
+        listIter.next();
+        listIter.canRemoveOrSet = false;
         assertThrows(IllegalStateException.class, () -> {
-            iterator.set(7);
+            listIter.set(7);
         });
     }
 
@@ -84,9 +84,9 @@ public class MyListIteratorCustomTester {
     @Test
     public void testSetInvalid() {
 
-        iterator.next();
+        listIter.next();
         assertThrows(NullPointerException.class, () -> {
-            iterator.set(null);
+            listIter.set(null);
         });
     }
 
@@ -96,11 +96,11 @@ public class MyListIteratorCustomTester {
     @Test
     public void testCantRemove() {
 
-        iterator.next();
-        iterator.next();
-        iterator.canRemoveOrSet = false;
+        listIter.next();
+        listIter.next();
+        listIter.canRemoveOrSet = false;
         assertThrows(IllegalStateException.class, () -> {
-            iterator.remove();
+            listIter.remove();
         });
 
     }
@@ -110,11 +110,11 @@ public class MyListIteratorCustomTester {
      */
     @Test
     public void testHasNextEnd() {
-        iterator.next();
-        iterator.next();
-        iterator.next();
+        listIter.next();
+        listIter.next();
+        listIter.next();
         assertEquals("hasNext() at the end of a list", false,
-                iterator.hasNext());
+                listIter.hasNext());
     }
 
     /**
@@ -123,7 +123,7 @@ public class MyListIteratorCustomTester {
     @Test
     public void testHasPreviousStart() {
         assertEquals("hasPrevious() at the end of a list", false,
-            iterator.hasPrevious());
+            listIter.hasPrevious());
 
     }
 
@@ -133,7 +133,7 @@ public class MyListIteratorCustomTester {
     @Test
     public void testPreviousIndexStart() {
         assertEquals("previousIndex() at the end of a list", -1,
-            iterator.previousIndex());
+            listIter.previousIndex());
     }
 
     /**
@@ -142,6 +142,6 @@ public class MyListIteratorCustomTester {
     @Test
     public void testNextIndexEnd() {
         assertEquals("previousIndex() at the end of a list", linkedList.size(),
-            iterator.nextIndex());
+            listIter.nextIndex());
     }
 }
